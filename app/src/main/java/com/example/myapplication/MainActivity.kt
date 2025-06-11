@@ -5,18 +5,30 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -33,7 +45,6 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -43,25 +54,33 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(modifier: Modifier = Modifier) {
+    var checked by remember { mutableStateOf(true) }
+    val image = if (checked) R.drawable.robot else R.drawable.computer
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(16.dp)
                 .clickable { },
-            text = "Hello $name!",
+            text = if (checked) "HELLO ROBOT" else "HELLO COMPUTER",
             style = MaterialTheme.typography.bodyLarge,
-            fontSize = 40.sp
+            fontSize = 30.sp
         )
         Image(
-            painter = painterResource(id = R.drawable.mine),
+            painter = painterResource(image),
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.size(200.dp)
+                .clip(CircleShape)
+                .padding(20.dp),
             contentDescription = null,
-            modifier = Modifier.fillMaxSize()
         )
         Text(
             modifier = Modifier
@@ -71,6 +90,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             text = "Goodbye",
             style = MaterialTheme.typography.bodyLarge,
             fontSize = 40.sp
+        )
+        Switch(
+            checked = checked,
+            onCheckedChange = { checked = it }
         )
     }
 }
@@ -83,6 +106,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     MyApplicationTheme {
-        Greeting(stringResource(R.string.alvin))
+        Greeting()
     }
 }
