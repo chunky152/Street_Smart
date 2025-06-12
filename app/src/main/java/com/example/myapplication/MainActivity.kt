@@ -39,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -65,16 +66,6 @@ class MainActivity : ComponentActivity() {
                             )
                         )
                     },
-                    bottomBar = {
-                        BottomAppBar {
-                            Text(
-                                text = stringResource(id = R.string.alvin),
-                                style = MaterialTheme.typography.displayLarge,
-                                color = Color.Black,
-                                fontSize = 40.sp
-                            )
-                        }
-                    }
                     ) { innerPadding ->
                     Greeting(
                         modifier = Modifier.padding(innerPadding),
